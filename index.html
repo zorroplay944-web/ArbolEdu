@@ -1,0 +1,126 @@
+<!DOCTYPE html> <!-- Declara que el documento es HTML5 -->
+<html lang="es"> <!-- Raíz del documento, idioma español -->
+<head> <!-- Inicio de la cabecera (metadatos) -->
+  <meta charset="UTF-8"> <!-- Codificación de caracteres para acentos y ñ -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Hace la página adaptable a móviles -->
+  <title>ArbolEdu│Christian Eduardo</title> <!-- Título que aparece en la pestaña del navegador -->
+  <link rel="stylesheet" href="css/estilos.css"> <!-- Enlaza la hoja de estilos externa -->
+</head> <!-- Fin de la cabecera -->
+<body> <!-- Inicio del contenido visible -->
+  <header class="cabecera"> <!-- Encabezado con el logo, el nombre y el menú -->
+    <div class="marca"> <!-- Agrupa logo y textos -->
+      <svg class="logo" viewBox="0 0 64 56" aria-hidden="true"> <!-- Logo: un árbol binario en miniatura -->
+        <line x1="32" y1="10" x2="14" y2="30"/> <!-- Rama raíz - izquierda -->
+        <line x1="32" y1="10" x2="50" y2="30"/> <!-- Rama raíz - derecha -->
+        <line x1="14" y1="30" x2="6" y2="48"/> <!-- Rama izquierda - hoja 1 -->
+        <line x1="14" y1="30" x2="24" y2="48"/> <!-- Rama izquierda - hoja 2 -->
+        <line x1="50" y1="30" x2="42" y2="48"/> <!-- Rama derecha - hoja 3 -->
+        <line x1="50" y1="30" x2="58" y2="48"/> <!-- Rama derecha - hoja 4 -->
+        <circle cx="32" cy="10" r="7" fill="#ffc23d" style="--d:0"/> <!-- Nodo raíz -->
+        <circle cx="14" cy="30" r="6" fill="#ff4fa3" style="--d:1"/> <!-- Nodo izquierdo -->
+        <circle cx="50" cy="30" r="6" fill="#35c8ff" style="--d:2"/> <!-- Nodo derecho -->
+        <circle cx="6" cy="48" r="5" fill="#3ef2c0" style="--d:3"/> <!-- Hoja 1 -->
+        <circle cx="24" cy="48" r="5" fill="#b6f24a" style="--d:4"/> <!-- Hoja 2 -->
+        <circle cx="42" cy="48" r="5" fill="#9b7bff" style="--d:5"/> <!-- Hoja 3 -->
+        <circle cx="58" cy="48" r="5" fill="#ff7a5c" style="--d:6"/> <!-- Hoja 4 -->
+      </svg> <!-- Fin del logo -->
+      <div> <!-- Textos de la marca -->
+        <h1>ArbolEdu</h1> <!-- Nombre del software educativo -->
+        <p class="lema">Aprendiendo desde la raiz</p> <!-- Frase descriptiva -->
+      </div> <!-- Fin de textos -->
+    </div> <!-- Fin de la marca -->
+    <nav class="menu"> <!-- Menú de navegación entre módulos -->
+      <button class="tab activo" data-seccion="simulador">Simulador</button> <!-- Pestaña del módulo 1 -->
+      <button class="tab" data-seccion="teoria">Teoría y glosario</button> <!-- Pestaña del módulo 2 -->
+      <button class="tab" data-seccion="quiz">Evaluación</button> <!-- Pestaña del módulo 3 -->
+    </nav> <!-- Fin del menú -->
+  </header> <!-- Fin del encabezado -->
+  <main> <!-- Contenedor principal de los módulos -->
+    <!-- MÓDULO 1: SIMULADOR -->
+    <section id="simulador" class="seccion activa"> <!-- Sección del simulador (visible al inicio) -->
+      <div class="panel controles" id="sim-controles"> <!-- Panel con los botones de control -->
+        <div class="grupo"> <!-- Grupo de operaciones -->
+          <input id="entrada-valor" type="text" maxlength="5" placeholder="Número o letra"> <!-- Campo para escribir el valor -->
+          <button id="btn-insertar" class="btn-verde">Insertar</button> <!-- Inserta el valor con animación -->
+          <button id="btn-eliminar" class="btn-rojo">Eliminar</button> <!-- Elimina el valor con animación -->
+          <button id="btn-buscar" class="btn-cian">Buscar</button> <!-- Busca el valor resaltando el camino -->
+        </div> <!-- Fin del grupo de operaciones -->
+        <div class="grupo"> <!-- Grupo de recorridos -->
+          <span class="etiqueta">Recorridos</span> <!-- Nombre del grupo -->
+          <button id="btn-preorden" class="btn-violeta">Preorden</button> <!-- Recorrido raíz, izquierda, derecha -->
+          <button id="btn-inorden" class="btn-violeta">Inorden</button> <!-- Recorrido izquierda, raíz, derecha -->
+          <button id="btn-postorden" class="btn-violeta">Postorden</button> <!-- Recorrido izquierda, derecha, raíz -->
+        </div> <!-- Fin del grupo de recorridos -->
+        <div class="grupo"> <!-- Grupo del árbol -->
+          <button id="btn-aleatorio">Árbol aleatorio</button> <!-- Genera un árbol de ejemplo -->
+          <button id="btn-limpiar">Limpiar</button> <!-- Vacía el árbol -->
+        </div> <!-- Fin del grupo del árbol -->
+        <label class="velocidad">Velocidad <input id="velocidad" type="range" min="1" max="10" value="6"></label> <!-- Control de velocidad -->
+      </div> <!-- Fin del panel de controles -->
+      <div class="rejilla-sim"> <!-- Rejilla con tres zonas: árbol, información y consola -->
+        <div class="panel zona-arbol"> <!-- Panel del árbol -->
+          <div class="barra"> <!-- Barra de navegación del lienzo -->
+            <span class="ayuda">Toca un nodo para ver su información. Arrastra para moverte.</span> <!-- Instrucción de uso -->
+            <div class="zoom"> <!-- Botones de zoom -->
+              <button id="zoom-menos" title="Alejar">−</button> <!-- Aleja el dibujo -->
+              <button id="zoom-ajustar" title="Ajustar al ancho">Ajustar</button> <!-- Hace caber todo el árbol -->
+              <button id="zoom-mas" title="Acercar">+</button> <!-- Acerca el dibujo -->
+            </div> <!-- Fin de zoom -->
+          </div> <!-- Fin de la barra -->
+          <div class="lienzo-caja"> <!-- Caja con desplazamiento para el dibujo -->
+            <svg id="lienzo-sim"></svg> <!-- Lienzo SVG donde se dibuja el árbol del simulador -->
+          </div> <!-- Fin de la caja del lienzo -->
+          <div id="salida-sim" class="salida">Salida: (ejecuta un recorrido)</div> <!-- Secuencia de salida del recorrido -->
+        </div> <!-- Fin del panel del árbol -->
+        <div class="panel zona-consola"> <!-- Consola integrada, justo debajo del árbol -->
+          <div id="consola-sim" class="consola"></div> <!-- Consola con los pasos del algoritmo -->
+        </div> <!-- Fin de la consola -->
+        <div class="panel info zona-info" id="info-nodo"></div> <!-- Información del nodo tocado, a la derecha del árbol -->
+      </div> <!-- Fin de la rejilla -->
+    </section> <!-- Fin del módulo 1 -->
+    <!-- ========== MÓDULO 2: TEORÍA ========== -->
+    <section id="teoria" class="seccion"> <!-- Sección de teoría (oculta al inicio) -->
+      <div class="panel"> <!-- Panel con los conceptos -->
+        <p class="lectura">Elige un concepto y mira qué nodos del árbol de ejemplo lo cumplen.</p> <!-- Instrucción para el estudiante -->
+        <div id="lista-conceptos" class="conceptos"></div> <!-- Aquí JavaScript crea los botones del glosario -->
+      </div> <!-- Fin del panel de conceptos -->
+      <div class="panel lienzo-caja"> <!-- Caja del dibujo de ejemplo -->
+        <svg id="lienzo-teoria"></svg> <!-- Lienzo SVG del árbol de ejemplo -->
+      </div> <!-- Fin de la caja -->
+      <div class="panel"> <!-- Panel de la explicación -->
+        <h2 id="teoria-titulo">Glosario</h2> <!-- Título del concepto elegido -->
+        <p id="teoria-texto" class="lectura"></p> <!-- Explicación del concepto elegido -->
+      </div> <!-- Fin del panel de explicación -->
+    </section> <!-- Fin del módulo 2 -->
+    <!-- ========== MÓDULO 3: QUIZ ========== -->
+    <section id="quiz" class="seccion"> <!-- Sección de evaluación (oculta al inicio) -->
+      <div id="quiz-inicio" class="panel"> <!-- Pantalla de inicio del quiz -->
+        <p class="lectura">Se mostrarán 5 árboles aleatorios. Escribe el recorrido que se pide, separando los valores con espacios o comas.</p> <!-- Reglas del quiz -->
+        <button id="quiz-empezar" class="btn-verde">Empezar evaluación</button> <!-- Botón para comenzar -->
+      </div> <!-- Fin de la pantalla de inicio -->
+      <div id="quiz-juego" class="panel oculto"> <!-- Pantalla de preguntas -->
+        <p id="quiz-progreso" class="progreso"></p> <!-- Muestra el número de pregunta -->
+        <div class="lienzo-caja"><svg id="lienzo-quiz"></svg></div> <!-- Árbol aleatorio de la pregunta -->
+        <p id="quiz-pregunta" class="lectura"></p> <!-- Texto de la pregunta -->
+        <input id="quiz-respuesta" type="text" placeholder="Ej: 50 30 20"> <!-- Campo para la respuesta -->
+        <button id="quiz-comprobar" class="btn-cian">Comprobar</button> <!-- Evalúa la respuesta -->
+        <button id="quiz-siguiente" class="btn-verde oculto">Siguiente</button> <!-- Avanza a la siguiente pregunta -->
+        <p id="quiz-feedback"></p> <!-- Resultado de la respuesta -->
+      </div> <!-- Fin de la pantalla de preguntas -->
+      <div id="quiz-final" class="panel oculto"> <!-- Pantalla de calificación final -->
+        <h2 id="quiz-nota"></h2> <!-- Calificación final -->
+        <p id="quiz-detalle" class="lectura"></p> <!-- Detalle de aciertos -->
+        <button id="quiz-reiniciar" class="btn-verde">Intentar de nuevo</button> <!-- Reinicia la evaluación -->
+      </div> <!-- Fin de la pantalla final -->
+    </section> <!-- Fin del módulo 3 -->
+  </main> <!-- Fin del contenedor principal -->
+  <script src="js/Nodo.js"></script> <!-- Clase Nodo (lógica) -->
+  <script src="js/ArbolBinario.js"></script> <!-- Clase ArbolBinario (lógica) -->
+  <script src="js/dibujo.js"></script> <!-- Dibujo y navegación del árbol en SVG -->
+  <script src="js/info.js"></script> <!-- Panel de información del nodo tocado -->
+  <script src="js/simulador.js"></script> <!-- Módulo 1 -->
+  <script src="js/teoria.js"></script> <!-- Módulo 2 -->
+  <script src="js/quiz.js"></script> <!-- Módulo 3 -->
+  <script src="js/app.js"></script> <!-- Navegación entre módulos -->
+</body> <!-- Fin del contenido visible -->
+</html> <!-- Fin del documento -->

@@ -1,0 +1,250 @@
+/* ===== Variables de color reutilizables ===== */
+:root { /* Selector de la raíz del documento */
+  --noche: #0c0a22; /* Azul-violeta muy oscuro: fondo general */
+  --vidrio: rgba(255, 255, 255, 0.06); /* Relleno translúcido de los paneles */
+  --borde: rgba(255, 255, 255, 0.14); /* Borde fino de paneles y campos */
+  --texto: #f2f0ff; /* Texto principal */
+  --suave: #a9a4d6; /* Texto secundario */
+  --menta: #3ef2c0; /* Éxito y nodos visitados */
+  --rosa: #ff4fa3; /* Errores y eliminación */
+  --ambar: #ffc23d; /* Camino y puntero actual */
+  --cian: #35c8ff; /* Búsqueda */
+  --violeta: #9b7bff; /* Recorridos */
+  --lima: #b6f24a; /* Inserción */
+} /* Fin de variables */
+
+* { box-sizing: border-box; } /* El padding no agranda los elementos */
+
+body { /* Estilo del cuerpo de la página */
+  margin: 0; /* Quita el margen por defecto */
+  min-height: 100vh; /* Ocupa al menos toda la pantalla */
+  color: var(--texto); /* Aplica el color de texto */
+  font-family: system-ui, "Segoe UI", sans-serif; /* Tipografía del sistema */
+  line-height: 1.5; /* Espacio entre líneas legible */
+  background: /* Fondo con varias luces de colores superpuestas */
+    radial-gradient(circle at 12% 8%, rgba(54, 14, 200, 0.28), transparent 38%), /* Resplandor azul arriba a la izquierda */
+    radial-gradient(circle at 88% 14%, rgba(53, 200, 255, 0.24), transparent 40%), /* Resplandor cian arriba a la derecha */
+    radial-gradient(circle at 50% 100%, rgba(155, 123, 255, 0.28), transparent 50%), /* Resplandor violeta abajo */
+    var(--noche); /* Color base */
+  background-attachment: fixed; /* El fondo no se mueve al hacer scroll */
+} /* Fin del cuerpo */
+
+.cabecera { /* Encabezado superior */
+  display: flex; /* Organiza marca y menú en fila */
+  flex-wrap: wrap; /* Permite saltar de línea en pantallas chicas */
+  align-items: center; /* Centra verticalmente */
+  justify-content: space-between; /* Separa marca y menú */
+  gap: 16px; /* Espacio entre elementos */
+  padding: 18px 28px; /* Espacio interior */
+  border-bottom: 1px solid var(--borde); /* Línea inferior */
+  background: rgba(12, 10, 34, 0.55); /* Fondo semitransparente */
+  backdrop-filter: blur(10px); /* Difumina lo que queda detrás */
+} /* Fin del encabezado */
+
+.marca { display: flex; align-items: center; gap: 14px; } /* Logo y textos en fila */
+
+.logo { width: 64px; height: 56px; } /* Tamaño del logo */
+.logo line { stroke: var(--suave); stroke-width: 2.5; } /* Ramas del logo */
+.logo circle { /* Nodos del logo */
+  animation: brotar 0.55s cubic-bezier(0.3, 1.6, 0.5, 1) both; /* Aparecen con un pequeño rebote */
+  animation-delay: calc(var(--d) * 110ms); /* Cada nodo aparece uno tras otro */
+  transform-box: fill-box; /* La transformación usa el propio círculo */
+  transform-origin: center; /* Crece desde su centro */
+  filter: drop-shadow(0 0 1px currentColor); /* Pequeño brillo */
+} /* Fin de nodos del logo */
+
+h1 { /* Título principal */
+  margin: 0; /* Sin margen */
+  font-family: "Palatino Linotype", Palatino, Georgia, serif; /* Tipografía con serifa */
+  font-size: 2.1rem; /* Tamaño grande */
+  line-height: 1; /* Altura de línea ajustada */
+  background: linear-gradient(90deg, #ffc23d, #ff4fa3, #9b7bff, #35c8ff); /* Degradado multicolor */
+  -webkit-background-clip: text; /* Recorta el degradado con la forma del texto */
+  background-clip: text; /* Versión estándar del recorte */
+  color: transparent; /* Deja ver el degradado a través del texto */
+} /* Fin del título */
+
+.lema { margin: 4px 0 0; color: var(--suave); font-size: 0.9rem; } /* Frase bajo el título */
+
+.menu { display: flex; flex-wrap: wrap; gap: 8px; padding: 5px; border: 1px solid var(--borde); border-radius: 999px; background: var(--vidrio); } /* Menú tipo cápsula */
+
+.tab { /* Botones de pestañas */
+  background: transparent; /* Sin relleno */
+  color: var(--suave); /* Texto atenuado */
+  border: 0; /* Sin borde */
+  padding: 9px 18px; /* Espacio interior */
+  border-radius: 999px; /* Bordes totalmente redondeados */
+  font-weight: 600; /* Letra semi-negrita */
+  cursor: pointer; /* Cursor de mano */
+  transition: background 0.2s, color 0.2s, transform 0.15s; /* Micro-animaciones */
+} /* Fin de pestañas */
+
+.tab:hover { color: var(--texto); transform: translateY(-1px); } /* Al pasar el mouse la pestaña se ilumina */
+.tab.activo { background: linear-gradient(135deg, #ffc23d, #ff4fa3); color: #2a0a1c; box-shadow: 0 4px 18px rgba(255, 79, 163, 0.45); } /* Pestaña seleccionada con degradado y brillo */
+
+main { max-width: 1280px; margin: 0 auto; padding: 22px 20px 40px; } /* Contenedor central con ancho máximo */
+
+.seccion { display: none; } /* Las secciones se ocultan por defecto */
+.seccion.activa { display: block; animation: entrar 0.35s ease-out; } /* La sección activa se muestra con una entrada suave */
+.oculto { display: none !important; } /* Utilidad para ocultar elementos */
+
+.panel { /* Tarjeta de contenido */
+  background: var(--vidrio); /* Fondo translúcido */
+  border: 1px solid var(--borde); /* Borde fino */
+  border-radius: 16px; /* Esquinas suaves */
+  padding: 18px; /* Espacio interior */
+  margin-bottom: 18px; /* Separación entre paneles */
+  backdrop-filter: blur(8px); /* Efecto de vidrio esmerilado */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Sombra para dar profundidad */
+} /* Fin del panel */
+
+.controles { display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center; } /* Controles del simulador en fila flexible */
+.grupo { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; } /* Cada grupo de botones */
+.etiqueta { color: var(--suave); font-size: 0.9rem; margin-right: 2px; } /* Nombre de un grupo */
+
+button { /* Botones generales */
+  background: rgba(255, 255, 255, 0.1); /* Fondo translúcido */
+  color: var(--texto); /* Color del texto */
+  border: 1px solid var(--borde); /* Borde */
+  padding: 9px 16px; /* Espacio interior */
+  border-radius: 10px; /* Esquinas */
+  font-weight: 600; /* Letra semi-negrita */
+  cursor: pointer; /* Cursor de mano */
+  transition: transform 0.15s, box-shadow 0.15s, filter 0.15s; /* Micro-animaciones al interactuar */
+} /* Fin de botones */
+
+.btn-verde { background: linear-gradient(135deg, #c8f76a, #35e0a1); color: #08301f; border-color: transparent; } /* Botón de insertar */
+.btn-rojo { background: linear-gradient(135deg, #ff8fb1, #ff4fa3); color: #3a0620; border-color: transparent; } /* Botón de eliminar */
+.btn-cian { background: linear-gradient(135deg, #7be3ff, #35a0ff); color: #04243d; border-color: transparent; } /* Botón de buscar */
+.btn-violeta { background: linear-gradient(135deg, #c3adff, #7d6bff); color: #170a47; border-color: transparent; } /* Botones de recorridos */
+
+button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35); filter: brightness(1.1); } /* Al pasar el mouse el botón sube y brilla */
+button:active:not(:disabled) { transform: scale(0.95); } /* Al pulsar el botón se encoge */
+button:disabled { opacity: 0.35; cursor: not-allowed; } /* Botón bloqueado */
+button:focus-visible, input:focus-visible { outline: 3px solid var(--ambar); outline-offset: 2px; } /* Foco visible con teclado */
+
+input[type="text"] { /* Campos de texto */
+  background: rgba(0, 0, 0, 0.35); /* Fondo oscuro */
+  color: var(--texto); /* Texto claro */
+  border: 1px solid var(--borde); /* Borde */
+  padding: 9px 12px; /* Espacio interior */
+  border-radius: 10px; /* Esquinas */
+  min-width: 160px; /* Ancho mínimo */
+  font-size: 1rem; /* Tamaño de letra */
+} /* Fin de campos de texto */
+
+.velocidad { margin-left: auto; color: var(--suave); display: flex; align-items: center; gap: 8px; } /* Control de velocidad a la derecha */
+input[type="range"] { accent-color: var(--ambar); } /* Color del deslizador */
+
+.rejilla-sim { /* Rejilla del simulador */
+  display: grid; /* Usa una rejilla con zonas con nombre */
+  grid-template-columns: minmax(0, 1fr) 360px; /* Árbol flexible y columna de información fija */
+  grid-template-areas: "arbol info" "consola info"; /* Árbol y consola a la izquierda, información a la derecha */
+  column-gap: 18px; /* Separación entre columnas */
+  align-items: start; /* Alinea las zonas arriba */
+} /* Fin de la rejilla */
+.zona-arbol { grid-area: arbol; } /* Zona del árbol */
+.zona-consola { grid-area: consola; } /* Zona de la consola, debajo del árbol */
+.zona-info { grid-area: info; position: sticky; top: 12px; } /* Información a la derecha y siempre visible al bajar */
+
+.barra { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; } /* Barra encima del lienzo */
+.ayuda { color: var(--suave); font-size: 0.88rem; } /* Texto de ayuda */
+.zoom { display: flex; gap: 6px; } /* Botones de zoom en fila */
+.zoom button { padding: 6px 12px; } /* Botones de zoom más compactos */
+
+.lienzo-caja { /* Caja con scroll que contiene el árbol */
+  position: relative; /* Referencia para calcular el centrado */
+  overflow: auto; /* Barras de desplazamiento si el árbol es grande */
+  text-align: center; /* Centra el árbol si es pequeño */
+  min-height: 280px; /* Altura mínima */
+  max-height: 68vh; /* Altura máxima: luego se desplaza */
+  border-radius: 12px; /* Esquinas */
+  background: /* Fondo con cuadrícula de puntos */
+    radial-gradient(circle, rgba(255, 255, 255, 0.13) 1.2px, transparent 1.4px) 0 0 / 26px 26px, /* Puntos de la cuadrícula */
+    rgba(0, 0, 0, 0.28); /* Oscurecido para dar contraste */
+  border: 1px solid var(--borde); /* Borde */
+} /* Fin de la caja del lienzo */
+.lienzo-caja.arrastrando { cursor: grabbing; user-select: none; } /* Cursor de mano cerrada al arrastrar */
+.panel.lienzo-caja { padding: 18px; } /* En teoría la caja es también un panel */
+svg { display: inline-block; vertical-align: top; } /* El SVG se comporta como bloque centrable */
+
+.arista { stroke: rgba(255, 255, 255, 0.35); stroke-width: 2.5; stroke-linecap: round; transition: stroke 0.2s; } /* Línea que une padre e hijo */
+.arista.ruta { stroke: var(--ambar); stroke-width: 4.5; filter: drop-shadow(0 0 6px var(--ambar)); } /* Arista del camino al nodo seleccionado */
+
+.nodo .cuerpo { stroke: rgba(12, 10, 34, 0.9); stroke-width: 2.5; transition: stroke 0.2s; } /* Círculo base del nodo */
+.nodo text { fill: #0c0a22; font-weight: 800; font-size: 17px; text-anchor: middle; dominant-baseline: central; pointer-events: none; } /* Texto centrado en el nodo */
+g.nodo[tabindex] { cursor: pointer; outline: none; } /* Los nodos interactivos muestran cursor de mano */
+g.nodo[tabindex]:hover .cuerpo { stroke: #fff; stroke-width: 4; } /* Al pasar el mouse el nodo se perfila */
+g.nodo:focus-visible .cuerpo { stroke: var(--ambar); stroke-width: 6; } /* Foco de teclado visible */
+
+.nodo.sel .cuerpo { stroke: #fff; stroke-width: 5; } /* Nodo seleccionado con borde blanco */
+.nodo .anillo { fill: none; stroke: var(--ambar); stroke-width: 3; stroke-dasharray: 8 7; transform-box: fill-box; transform-origin: center; animation: girar 9s linear infinite; } /* Anillo giratorio alrededor del seleccionado */
+.nodo.visita .cuerpo { stroke: var(--ambar); stroke-width: 6; } /* Nodo en el camino de búsqueda */
+.nodo.nuevo .cuerpo { stroke: #fff; stroke-width: 6; animation: aparecer 0.5s cubic-bezier(0.3, 1.6, 0.5, 1); transform-box: fill-box; transform-origin: center; } /* Nodo recién insertado */
+.nodo.encontrado .cuerpo { stroke: var(--menta); stroke-width: 7; } /* Nodo encontrado */
+.nodo.eliminar .cuerpo { stroke: var(--rosa); stroke-width: 7; } /* Nodo por eliminar */
+.nodo.actual .cuerpo { stroke: var(--ambar); stroke-width: 8; } /* Puntero actual del recorrido */
+.nodo.pila .cuerpo { stroke: var(--ambar); stroke-width: 4; stroke-dasharray: 5 4; } /* Nodo con llamada recursiva pendiente */
+.nodo.visitado .cuerpo { stroke: var(--menta); stroke-width: 6; } /* Nodo ya visitado */
+.nodo.marca .cuerpo { stroke: #fff; stroke-width: 5; animation: pulso 0.9s infinite alternate; transform-box: fill-box; transform-origin: center; } /* Nodo resaltado en la teoría */
+.nodo.tenue { opacity: 0.22; } /* Nodos que no pertenecen al concepto */
+
+.salida { margin-top: 12px; padding: 10px 14px; border-radius: 10px; background: rgba(255, 194, 61, 0.1); border: 1px solid rgba(255, 194, 61, 0.35); color: var(--ambar); font-family: ui-monospace, Consolas, monospace; font-size: 1.05rem; } /* Línea de salida del recorrido */
+.consola { background: rgba(0, 0, 0, 0.45); border-radius: 10px; padding: 10px; height: 230px; overflow-y: auto; font-family: ui-monospace, Consolas, monospace; font-size: 0.88rem; } /* Consola integrada */
+.linea { padding: 1px 0 1px 8px; border-left: 3px solid transparent; } /* Cada línea de la consola */
+.linea.info { color: var(--texto); border-color: var(--suave); } /* Mensaje normal */
+.linea.ok { color: var(--menta); border-color: var(--menta); } /* Mensaje de éxito */
+.linea.error { color: #ff8fb1; border-color: var(--rosa); } /* Mensaje de error */
+.linea.tenue { color: var(--suave); border-color: transparent; } /* Mensaje secundario */
+
+.info { min-height: 150px; } /* Altura mínima del panel de información */
+.vacio { margin: 0; color: var(--suave); } /* Mensaje cuando no hay nodo seleccionado */
+.info-cab { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; } /* Cabecera del panel: ficha y tipo */
+.info-cab strong { display: block; font-size: 1.15rem; } /* Tipo de nodo */
+.sub { color: var(--suave); font-size: 0.85rem; } /* Texto pequeño bajo el tipo */
+.ficha { /* Círculo grande con el valor del nodo */
+  display: grid; /* Para centrar el contenido */
+  place-items: center; /* Centra el valor */
+  width: 60px; height: 60px; /* Tamaño */
+  border-radius: 50%; /* Círculo */
+  color: #0c0a22; /* Texto oscuro */
+  font-weight: 800; /* Negrita */
+  font-size: 1.3rem; /* Tamaño del valor */
+  box-shadow: 0 0 22px currentColor; /* Brillo */
+  border: 3px solid #fff; /* Borde blanco */
+} /* Fin de la ficha */
+.datos { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0 0 14px; } /* Datos en dos columnas */
+.datos > div { background: rgba(0, 0, 0, 0.3); border: 1px solid var(--borde); border-radius: 10px; padding: 8px 10px; } /* Cada dato en su recuadro */
+.datos .ancho { grid-column: 1 / -1; } /* El camino ocupa las dos columnas */
+dt { color: var(--suave); font-size: 0.78rem; } /* Nombre del dato */
+dd { margin: 2px 0 0; font-size: 1.3rem; font-weight: 700; } /* Valor del dato */
+dd small { display: block; font-size: 0.72rem; font-weight: 400; color: var(--suave); } /* Aclaración bajo el dato */
+dd.camino { font-size: 1rem; word-break: break-word; } /* El camino usa letra más pequeña */
+.mini { display: inline-grid; place-items: center; min-width: 30px; height: 30px; padding: 0 6px; border-radius: 15px; color: #0c0a22; font-size: 0.95rem; } /* Nodo pequeño dentro de los datos */
+.nada { font-size: 0.9rem; font-weight: 400; color: var(--suave); } /* Texto "ninguno" */
+.nav-nodo { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; } /* Botones de navegación en rejilla */
+.nav-nodo button { padding: 8px 6px; font-size: 0.88rem; } /* Botones de navegación compactos */
+
+.conceptos { display: flex; flex-wrap: wrap; gap: 8px; } /* Botones del glosario en fila flexible */
+.conceptos button.activo { background: linear-gradient(135deg, #ffc23d, #ff4fa3); color: #2a0a1c; border-color: transparent; } /* Concepto seleccionado */
+.lectura { max-width: 70ch; } /* Líneas de lectura cómodas */
+h2 { margin: 0 0 6px; font-family: "Palatino Linotype", Palatino, Georgia, serif; font-size: 1.6rem; } /* Títulos de sección */
+.progreso { color: var(--ambar); font-weight: 700; margin-top: 0; } /* Progreso del quiz */
+#quiz-respuesta { width: 100%; max-width: 420px; font-size: 1.15rem; margin-right: 8px; } /* Campo de respuesta grande */
+#quiz-feedback { font-weight: 700; font-size: 1.05rem; } /* Resultado del quiz */
+
+@keyframes brotar { from { transform: scale(0); } to { transform: scale(1); } } /* Aparición con crecimiento (logo) */
+@keyframes aparecer { from { transform: scale(0); } to { transform: scale(1); } } /* Aparición de un nodo nuevo */
+@keyframes pulso { from { transform: scale(1); } to { transform: scale(1.12); } } /* Latido de nodos resaltados */
+@keyframes girar { to { transform: rotate(360deg); } } /* Giro del anillo de selección */
+@keyframes entrar { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } } /* Entrada suave de una sección */
+
+@media (max-width: 960px) { /* Pantallas medianas y pequeñas */
+  .rejilla-sim { grid-template-columns: 1fr; grid-template-areas: "arbol" "info" "consola"; } /* Una columna: árbol, información y luego consola */
+  .zona-info { position: static; } /* Sin posición fija en pantallas pequeñas */
+  .velocidad { margin-left: 0; } /* La velocidad ya no se pega a la derecha */
+} /* Fin de la regla */
+
+@media (prefers-reduced-motion: reduce) { /* Para quien prefiere menos movimiento */
+  *, *::before, *::after { animation: none !important; transition: none !important; } /* Desactiva animaciones y transiciones */
+} /* Fin de la regla */
