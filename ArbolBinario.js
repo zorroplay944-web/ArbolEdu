@@ -11,12 +11,12 @@ class ArbolBinario { // Declara la clase
     return `hsl(${tono.toFixed(0)}, 72%, 62%)`; // Devuelve el color en formato HSL
   } // Fin de generarColor
 
-  comparar(a, b) { // Compara dos valores: -1 si a<b, 0 si son iguales, 1 si a>b
-    if (typeof a === typeof b) { // Si ambos son del mismo tipo (número con número o letra con letra)
-      return a < b ? -1 : (a > b ? 1 : 0); // Compara normalmente
-    } // Fin del caso de mismo tipo
-    return typeof a === 'number' ? -1 : 1; // Si son de distinto tipo, los números van antes que las letras
-  } // Fin de comparar
+comparar(a, b) { //este compara el tipo de dato 
+    if (typeof a === typeof b) {//lo divide en tre letra (a)o num(b)
+      return a < b ? -1 : (a > b ? 1 : 0); //regresa  si no es de la misma categoria
+    } 
+    return typeof a === 'number' ? -1 : 1; 
+  } //termina el recorrido
 
   ruta(valor) { // Calcula el camino que sigue la búsqueda de un valor SIN modificar el árbol
     const pasos = []; // Lista de pasos {nodo, dir}
