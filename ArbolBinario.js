@@ -9,7 +9,7 @@ class ArbolBinario { // Declara la clase
     const tono = (this.contador * 137.508) % 360; // Ángulo áureo: tonos muy separados entre sí
     this.contador++; // Aumenta el contador para el siguiente nodo
     return `hsl(${tono.toFixed(0)}, 72%, 62%)`; // Devuelve el color en formato HSL
-  } // Fin de generarColor
+  } // Fin de generarColor 
 
 comparar(a, b) { //este compara el tipo de dato 
     if (typeof a === typeof b) {//lo divide en tre letra (a)o num(b)
